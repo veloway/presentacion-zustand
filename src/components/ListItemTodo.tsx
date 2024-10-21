@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useTodoStore } from "../store/todoList";
 
 interface ListItemTodoProps {
     description: string;
@@ -15,12 +16,7 @@ interface ListItemTodoProps {
     index: number;
 }
 
-export default function ListItemTodo({
-    description,
-    id,
-    index
-}: ListItemTodoProps) {
-
+export default function ListItemTodo({ description, id, index}: ListItemTodoProps) {
     const [checked, setChecked] = useState([0]);
 
     const handleToggle = (value: number) => () => {
@@ -36,10 +32,18 @@ export default function ListItemTodo({
       setChecked(newChecked);
     };
 
+    //TODO: Eliminar tarea
+
+    const removeTask = useTodoStore(state => state.removeTask);
+
+    const handleTaskDelete = () => {
+        removeTask(id)
+    }
+
     return (
         <ListItem
             secondaryAction={
-                <IconButton>
+                <IconButton onClick={handleTaskDelete}>
                     <DeleteIcon sx={{color:"#ff7272", fontSize:28}}/>
                 </IconButton>
             }
